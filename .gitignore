@@ -1,0 +1,13 @@
+# Go build
+bin/
+*.exe
+*.out
+
+# IDE
+.vscode/
+.idea/
+
+# Env files
+bot.env
+.env
+.env.*
