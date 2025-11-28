@@ -1,0 +1,27 @@
+apiVersion: v2
+name: telegram-bot
+description: A Helm chart for deploying a Telegram bot on Kubernetes
+
+type: application
+
+version: 0.1.1
+
+appVersion: "1.0.1"
+
+
+icon: https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg
+
+keywords:
+  - telegram
+  - bot
+  - go
+  - kubernetes
+
+home: https://github.com/samtishka/telegram-bot
+sources:
+  - https://github.com/samtishka/telegram-bot
+
+maintainers:
+  - name: Simeon Tishevsky
+    email: example@example.com
+

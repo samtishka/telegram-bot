@@ -1,0 +1,71 @@
+name: CI/CD Telegram Bot
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  IMAGE: ghcr.io/samtishka/telegram-bot:v1.0.0-linux-amd64
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.22"
+
+      - name: Build binary
+        run: make build
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}
+          platforms: linux/amd64
+
+  helm:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update values.yaml tag (for visibility)
+        run: |
+          sed -i 's/^  tag: .*/  tag: "v1.0.0-linux-amd64"/' telegram-bot/values.yaml
+      - name: Lint and package chart
+        run: |
+          helm lint telegram-bot
+          helm package telegram-bot
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: helm
+    steps:
+      - name: Trigger ArgoCD sync (placeholder)
+        run: |
+          echo "Here we would call ArgoCD to sync the app"
+          echo "Example:"
+          echo "argocd app sync telegram-bot --grpc-web"
