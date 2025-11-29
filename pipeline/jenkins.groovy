@@ -39,8 +39,9 @@ pipeline {
                 withCredentials([string(credentialsId: 'ghcr_token', variable: 'TOKEN')]) {
                     sh """
                       echo \$TOKEN | docker login ghcr.io -u samtishka --password-stdin
-                      docker tag samtishka/telegram-bot:\${params.IMAGE_TAG} ghcr.io/samtishka/telegram-bot:\${params.IMAGE_TAG}
-                      docker push ghcr.io/samtishka/telegram-bot:\${params.IMAGE_TAG}
+                      docker tag samtishka/telegram-bot:${params.IMAGE_TAG} ghcr.io/samtishka/telegram-bot:${params.IMAGE_TAG}
+                      docker push ghcr.io/samtishka/telegram-bot:${params.IMAGE_TAG}
+
                     """
                 }
             }
