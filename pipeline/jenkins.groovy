@@ -14,20 +14,19 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                sh 'make docker-build'
+                sh """
+                    echo "Simulating docker build for tag: ${params.IMAGE_TAG}"
+                    echo "Here we would run: make docker-build"
+                """
             }
         }
 
         stage('Push Image') {
             steps {
-                withCredentials([string(credentialsId: 'ghcr_token', variable: 'TOKEN')]) {
-                    sh """
-                        echo \$TOKEN | docker login ghcr.io -u samtishka --password-stdin
-
-                        docker tag samtishka/telegram-bot:${params.IMAGE_TAG} ghcr.io/samtishka/telegram-bot:${params.IMAGE_TAG}
-                        docker push ghcr.io/samtishka/telegram-bot:${params.IMAGE_TAG}
-                    """
-                }
+                sh """
+                    echo "Simulating docker push to ghcr.io/samtishka/telegram-bot:${params.IMAGE_TAG}"
+                    echo "Here we would run: docker login && docker push"
+                """
             }
         }
     }
