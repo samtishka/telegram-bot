@@ -52,13 +52,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update values.yaml tag (for visibility)
+      - name: Update values.yaml tag
         run: |
-          sed -i 's/^  tag: .*/  tag: "v1.0.0-linux-amd64"/' telegram-bot/values.yaml
+          sed -i 's/^  tag: .*/  tag: "v1.0.0-linux-amd64"/' helm/values.yaml
+
       - name: Lint and package chart
         run: |
-          helm lint telegram-bot
-          helm package telegram-bot
+          helm lint helm
+          helm package helm
+
 
   deploy:
     runs-on: ubuntu-latest

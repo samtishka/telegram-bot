@@ -17,5 +17,5 @@ docker-push:
 	docker push $(IMAGE)
 
 helm-package:
-	helm lint telegram-bot
-	helm package telegram-bot
+	helm lint helm
+	helm package helm

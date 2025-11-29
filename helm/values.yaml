@@ -1,3 +1,5 @@
+replicaCount: 1
+
 image:
   registry: "ghcr.io"
   repository: "samtishka/telegram-bot"
@@ -14,3 +16,5 @@ secret:
   teleToken: ""
 
 TELE_TOKEN: ""
+
+resources: {}
