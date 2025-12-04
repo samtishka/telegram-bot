@@ -1,6 +1,6 @@
 image:
-  repository: docker.io/samtishka/telegram-bot
-  tag: "latest"
+  repository: docker.io/simeontish/telegram-bot
+  tag: latest
   pullPolicy: IfNotPresent
 
 replicaCount: 1
