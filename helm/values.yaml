@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   registry: "ghcr.io"
   repository: "samtishka/telegram-bot"
-  tag: "v1.0.0-linux-amd64"
+  tag: "v1.0.0-3d600d6-linux-amd64"
   os: "linux"
   arch: "amd64"
   pullPolicy: IfNotPresent
