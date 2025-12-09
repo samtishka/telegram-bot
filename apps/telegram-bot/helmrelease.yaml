@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: telegram-bot
+  namespace: default
+spec:
+  interval: 1m
+  releaseName: telegram-bot
+  chart:
+    spec:
+      chart: ./charts/telegram-bot
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image:
+      repository: docker.io/samtishka/telegram-bot
+      tag: "latest"
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 8080
