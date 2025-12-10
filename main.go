@@ -148,4 +148,4 @@ func main() {
 	bot.Start()
 }
 
-// TEST_SECRET: 123456:AAAbbbCCCdddEEEfffFakeTelegramToken
+// TEST_SECRET: 123456:AABBbbCCCCdddEEEfffFakeTelegramToken
