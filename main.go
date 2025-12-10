@@ -147,3 +147,5 @@ func main() {
 	fmt.Println("✅ Бот запущен! Нажми Ctrl + C чтобы остановить.")
 	bot.Start()
 }
+
+// TEST_SECRET: 123456:AAAbbbCCCdddEEEfffFakeTelegramToken

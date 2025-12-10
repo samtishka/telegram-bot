@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[pre-commit] gitleaks hook running..."
+
+# 1. Проверяем, включён ли хук
+if ! git config --get gitleaks.enable | grep -q "true"; then
+  echo "[pre-commit] gitleaks disabled via git config — skipping."
+  exit 0
+fi
+
+# 2. Проверяем наличие gitleaks
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "[pre-commit] gitleaks not found — installing..."
+
+  # Определяем последнюю версию автоматически
+  LATEST=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest \
+      | grep "tag_name" | cut -d '"' -f4)
+
+  # Определяем бинарь под Linux x86_64
+  ASSET="gitleaks_${LATEST#v}_linux_x64.tar.gz"
+
+  curl -L -o /tmp/gitleaks.tar.gz \
+    "https://github.com/gitleaks/gitleaks/releases/download/${LATEST}/${ASSET}"
+
+  mkdir -p ~/.local/bin
+  tar -xf /tmp/gitleaks.tar.gz -C ~/.local/bin gitleaks
+  chmod +x ~/.local/bin/gitleaks
+  export PATH="$PATH:$HOME/.local/bin"
+
+  echo "[pre-commit] gitleaks installed."
+fi
+
+# 3. Запускаем gitleaks scan
+echo "[pre-commit] Running gitleaks..."
+if ! gitleaks detect --no-git -v; then
+  echo "[pre-commit] ❌ Secrets detected! Commit rejected."
+  exit 1
+fi
+
+echo "[pre-commit] ✔ No secrets found. Commit allowed."
+exit 0
